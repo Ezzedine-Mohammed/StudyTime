@@ -1,0 +1,16 @@
+{
+  "name": "StudyTime",
+  "version": "1.0.0",
+  "description": "Browser extension for managing study sessions and reducing distractions",
+  "keywords": [
+    "browser-extension",
+    "productivity",
+    "study",
+    "focus"
+  ],
+  "license": "MIT",
+  "author": "Izzeddin Al-Dabesh",
+  "scripts": {
+    "lint:css": "stylelint \"**/*.css\""
+  }
+}
