@@ -1,37 +1,25 @@
 /* import fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-/* start variables */
+/* variables */
 :root {
     --brand: #176B57;
     --mint: #EAF5EE;
     --ink: #22352D;
     --muted: #66756E;
-    --surface: #ffffff;
-    --amberSoft: #FFF2D9;
+    --surface: #fff;
+    --amber-soft: #FFF2D9;
     --amber: #946114;
     --border-color: #DBE3DF;
     --main-transition-duration: 0.1s;
 }
 
-
+/* Global Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
-body {
-    font-family: "Inter", sans-serif, Arial;
-    scroll-behavior: smooth;
-    width: 440px;
-    height: 720px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-/*  */
 
 button {
     border: none;
@@ -42,6 +30,55 @@ button {
 
 ul {
     list-style: none;
+}
+
+
+
+/* SVG icons using CSS masks */
+.mask-icon {
+    display: inline-block;
+    flex-shrink: 0;
+    background-color: currentcolor;
+    mask: var(--icon-url) center / contain no-repeat;
+}
+
+/* Icon sources */
+.icon-settings {
+    --icon-url: url("../assets/icons/settings.svg");
+}
+
+.icon-study-logo {
+    --icon-url: url("../assets/logo/logo.svg");
+}
+
+.icon-info {
+    --icon-url: url("../assets/icons/info.svg");
+}
+
+.icon-globe {
+    --icon-url: url("../assets/icons/globe.svg");
+}
+
+.icon-laptop {
+    --icon-url: url("../assets/icons/laptop.svg");
+
+    width: 16px;
+    height: 16px;
+}
+
+/* Global Styles */
+body {
+    font-family: Inter, sans-serif, Arial;
+    scroll-behavior: smooth;
+    width: 440px;
+    height: 720px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+[hidden] {
+    display: none !important;
 }
 
 /* start header */
@@ -58,7 +95,8 @@ header {
     height: 34px;
 }
 
-.logo>svg {
+.logo>img {
+    display: block;
     width: 100%;
     height: 100%;
 }
@@ -79,14 +117,15 @@ header {
     background-color: var(--mint);
 }
 
-.settings-btn>svg {
+.settings-btn>.mask-icon {
     width: 23px;
+    height: 23px;
 }
 
 /* start nav */
 
 nav {
-    box-shadow: 0 7px 10px -7px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 7px 10px -7px rgb(0 0 0 / 30%);
 }
 
 nav ul {
@@ -103,7 +142,7 @@ nav ul {
     font-weight: 600;
     color: var(--muted);
     padding: 12px;
-    border-radius: 8px 8px 0px 0px;
+    border-radius: 8px 8px 0 0;
     transition: var(--main-transition-duration) linear;
 }
 
@@ -131,8 +170,10 @@ section {
 }
 
 /* start session */
-.session {
-    display: none;
+.session>div {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .section-title {
@@ -209,7 +250,7 @@ section {
     text-align: center;
 }
 
-/* start in session*/
+/* start in session */
 .on-session-heading {
     display: flex;
     flex-direction: column;
@@ -350,14 +391,10 @@ section {
 
 .blocking-paused {
     color: var(--amber);
-    background-color: var(--amberSoft);
+    background-color: var(--amber-soft);
 }
 
 /* start site */
-.site {
-    display: none;
-}
-
 .site-heading {
     color: var(--ink);
     font-size: 24px;
@@ -407,18 +444,14 @@ section {
     text-align: center;
     padding: 24px;
     gap: 16px;
-}
-
-.empty-list>svg {
-    width: 64px;
-    height: 64px;
-}
-
-.empty-list {
     font-size: 18px;
     color: var(--ink);
 }
 
+.empty-list>.mask-icon {
+    width: 64px;
+    height: 64px;
+}
 
 /* start footer */
 footer {
@@ -429,10 +462,4 @@ footer {
     font-size: 12px;
     color: var(--muted);
     margin-bottom: 16px;
-}
-
-footer>svg {
-    width: 16px;
-    height: 16px;
-    color: inherit;
 }
