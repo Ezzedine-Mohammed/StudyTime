@@ -23,7 +23,12 @@
       <div class="logo">
         <img src="../assets/logo/header-logo.svg" alt="StudyTime" />
       </div>
-      <button class="settings-btn" title="settings" aria-label="open-settings">
+      <button
+        class="settings-btn tab"
+        title="settings"
+        data-view="settings"
+        aria-label="open-settings"
+      >
         <span class="mask-icon icon-settings" aria-hidden="true"></span>
       </button>
     </header>
@@ -180,9 +185,10 @@
         class="settings"
         aria-labelledby="settings-heading"
         data-screen="settings"
+        hidden
       >
         <button type="button" class="back">
-          <i class="fa-solid fa-arrow-left-long"></i>
+          <i class="fa-solid fa-arrow-left-long" aria-hidden="true"></i>
           <p>back</p>
         </button>
         <h1 id="settings-heading" class="section-title">Notifications</h1>
@@ -231,7 +237,7 @@
               class="remove-exception"
               title="remove exception"
             >
-              <i class="fa-solid fa-trash"></i>
+              <i class="fa-solid fa-trash" aria-hidden="true"></i>
             </button>
           </li> -->
         </ul>

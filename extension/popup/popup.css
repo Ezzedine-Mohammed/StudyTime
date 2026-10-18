@@ -122,6 +122,12 @@ header {
     justify-content: center;
     align-items: center;
     transition: var(--main-transition-duration) linear;
+
+    &.tab {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+    }
 }
 
 .settings-btn:hover {
