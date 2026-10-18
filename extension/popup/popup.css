@@ -83,6 +83,16 @@ body {
     display: none !important;
 }
 
+button:focus-visible {
+    outline: 1px solid var(--brand);
+    outline-offset: 2px;
+}
+
+.helper-text {
+    color: var(--muted);
+    font-size: 14px;
+}
+
 /* start header */
 header {
     height: 60px;
@@ -215,10 +225,7 @@ section {
     outline: none;
 }
 
-.helper-text {
-    color: var(--muted);
-    font-size: 14px;
-}
+
 
 .session-setting {
     display: flex;
@@ -402,11 +409,6 @@ section {
     font-size: 24px;
 }
 
-.helper-text-2 {
-    font-size: 14px;
-    color: var(--muted);
-}
-
 .site-form {
     display: flex;
     align-items: center;
@@ -464,6 +466,7 @@ section {
         color: var(--brand);
         font-size: 16px;
         font-weight: 600;
+        width: fit-content;
     }
 
     .toggle-notification {
@@ -590,7 +593,8 @@ section {
                 aspect-ratio: 1;
             }
 
-            .icon-globe & i {
+            .icon-globe,
+            i {
                 color: var(--muted);
             }
         }

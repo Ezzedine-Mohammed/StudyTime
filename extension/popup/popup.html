@@ -166,7 +166,7 @@
         <div class="empty-list">
           <span class="mask-icon icon-globe" aria-hidden="true"></span>
           <h2 class="empty-text">Your block list is empty</h2>
-          <p class="helper-text-2">
+          <p class="helper-text">
             Add a website above to block it during study sessions.
           </p>
         </div>
@@ -179,23 +179,26 @@
       <section
         class="settings"
         aria-labelledby="settings-heading"
-        data-screen="site"
         data-screen="settings"
       >
         <button type="button" class="back">
-          <i><</i>
+          <i class="fa-solid fa-arrow-left-long"></i>
           <p>back</p>
         </button>
-        <h1 id="tab-heading settings-heading" class="section-title">
-          Notifications
-        </h1>
+        <h1 id="settings-heading" class="section-title">Notifications</h1>
         <div class="toggle-notification">
           <div>
             <p class="toggle-title">Block website notifications</p>
             <p class="notification-status">Notification blocking is off</p>
           </div>
-          <button type="button" class="toggle-btn" title="enable">
-            <span class="on"></span>
+          <button
+            type="button"
+            class="toggle-btn"
+            role="switch"
+            aria-checked="false"
+            aria-label="Block website notifications"
+          >
+            <span class="off" aria-hidden="true"></span>
           </button>
         </div>
         <form class="notification-form">
@@ -208,7 +211,12 @@
             </p>
           </div>
           <div class="input-div">
-            <input type="text" name="allowed-website" id="allowed-website" />
+            <input
+              type="text"
+              name="allowed-website"
+              id="allowed-website"
+              required
+            />
             <button type="submit">Add</button>
           </div>
         </form>
