@@ -153,7 +153,7 @@
         <form action="" class="site-form">
           <div class="form-content">
             <input
-              type="url"
+              type="text"
               id="site-input"
               placeholder="instagram.com"
               required
@@ -174,9 +174,65 @@
 
       <section class="history" data-screen="history"></section>
 
-      <section class="statistics" data-screen="history"></section>
+      <section class="statistics" data-screen="statistics"></section>
 
-      <section class="settings" data-screen="settings"></section>
+      <section
+        class="settings"
+        aria-labelledby="settings-heading"
+        data-screen="site"
+        data-screen="settings"
+      >
+        <button type="button" class="back">
+          <i><</i>
+          <p>back</p>
+        </button>
+        <h1 id="tab-heading settings-heading" class="section-title">
+          Notifications
+        </h1>
+        <div class="toggle-notification">
+          <div>
+            <p class="toggle-title">Block website notifications</p>
+            <p class="notification-status">Notification blocking is off</p>
+          </div>
+          <button type="button" class="toggle-btn" title="enable">
+            <span class="on"></span>
+          </button>
+        </div>
+        <form class="notification-form">
+          <div class="form-title">
+            <label for="allowed-website" class="notification-label"
+              >Allowed websites</label
+            >
+            <p class="helper-text">
+              These sites keep their existing notification permissions.
+            </p>
+          </div>
+          <div class="input-div">
+            <input type="text" name="allowed-website" id="allowed-website" />
+            <button type="submit">Add</button>
+          </div>
+        </form>
+        <ul class="allowed-websites">
+          <!-- <li>
+            <div>
+              <span class="mask-icon icon-globe" aria-hidden="true"></span>
+              <p>mail.google.com</p>
+            </div>
+            <button
+              type="button"
+              class="remove-exception"
+              title="remove exception"
+            >
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </li> -->
+        </ul>
+        <p class="note">Exception changes apply during active sessions.</p>
+        <p class="helper-text info">
+          Previous notification settings return when you pause or end a session.
+          Blocking resumes when you resume.
+        </p>
+      </section>
     </main>
 
     <footer>
