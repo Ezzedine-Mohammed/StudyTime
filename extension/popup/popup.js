@@ -35,11 +35,6 @@ function navigate(tab) {
 }
 
 // Event listener
-document.addEventListener("click", (e) => {
-  const btn = e.currentTarget;
-  navigate(btn);
-});
-
 document.addEventListener("click", (event) => {
   // navigate listener
   const tab = event.target.closest(".tab");

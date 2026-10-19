@@ -68,6 +68,14 @@ ul {
     height: 16px;
 }
 
+.icon-calender {
+    --icon-url: url("../assets/icons/calendar-icon.svg");
+
+    color: var(--muted);
+    width: 20px;
+    height: 20px
+}
+
 /* Global Styles */
 body {
     font-family: Inter, sans-serif, Arial;
@@ -619,6 +627,82 @@ section {
     }
 }
 
+/* start history */
+.history {
+    .history-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        /* stylelint-disable-next-line no-descending-specificity */
+        li {
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+
+            .summary-session-title {
+                margin-bottom: 6px;
+                color: var(--ink);
+                font-size: 16px;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+
+            }
+
+            /* stylelint-disable-next-line no-descending-specificity */
+            div:last-child {
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .summary-studded-time {
+                color: var(--ink);
+                font-weight: 600;
+                font-size: 18px;
+            }
+
+            .summary-ending-statues {
+                padding: 3px 5px;
+                border-radius: 20px;
+                background-color: var(--amber-soft);
+                color: var(--amber);
+                font-size: 13px;
+            }
+
+            .summary-btn {
+                color: var(--brand);
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+        }
+    }
+
+    .note {
+        background-color: var(--canvas);
+        color: var(--muted);
+        padding: 12px;
+        font-size: 14px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        /* stylelint-disable-next-line no-descending-specificity */
+        span {
+            color: var(--brand);
+            width: 20px;
+            aspect-ratio: 1;
+        }
+    }
+}
 
 /* start footer */
 footer {
