@@ -63,12 +63,18 @@
             Start a study session
           </h1>
           <p class="quote">Choose a goal and make time for it.</p>
-          <form action="#" class="session-data">
+          <form id="setup-form" class="session-data">
             <div class="input-div session-title">
               <label for="session-setup-title" class="input-label"
                 >Session title</label
               >
-              <input type="text" id="session-setup-title" required />
+              <input
+                type="text"
+                id="session-setup-title"
+                name="session-setup-title"
+                required
+                maxlength="51"
+              />
               <p class="helper-text">A short name helps you find it later.</p>
             </div>
             <div class="input-div session-duration">
@@ -78,9 +84,9 @@
               <input
                 type="number"
                 id="session-setup-duration"
+                name="session-setup-duration"
                 required
-                pattern=""
-                min="5"
+                min="1"
                 max="180"
               />
               <p class="helper-text">5&#45;180 minutes • Whole numbers only</p>
@@ -107,37 +113,48 @@
 
         <div id="session-active" hidden>
           <div class="on-session-heading">
-            <p class="status">active</p>
-            <h1 class="session-title-data">Software Engineering review</h1>
-            <p class="session-duration-data">
+            <p class="status" id="status">active</p>
+            <h1 class="session-title-data" id="session-title-data">
+              Software Engineering review
+            </h1>
+            <!-- <p class="session-duration-data" id="session-duration-data">
               Planned duration: <span>45</span> minutes
-            </p>
+            </p> -->
           </div>
           <div class="timer">
             <p class="timer-heading">Time remaining</p>
-            <h2 class="remaining-time-data">22:18</h2>
-            <p>of <span class="planned-time-data">45:00</span></p>
+            <h2 class="remaining-time-data" id="remaining-time-data">00:00</h2>
+            <p>
+              of
+              <span class="planned-time-data" id="session-duration-data"
+                >00:00</span
+              >
+            </p>
           </div>
           <div class="session-counters">
             <div class="counter study-time">
               <p>study-time</p>
-              <p>22:42</p>
+              <p id="study-time">00:00</p>
             </div>
             <div class="separator"></div>
             <div class="counter pauses">
               <p>pauses</p>
-              <p>1</p>
+              <p id="pause-count">0</p>
             </div>
             <div class="separator"></div>
             <div class="counter attempts">
               <p>attempts</p>
-              <p>3</p>
+              <p id="attempts-count">0</p>
             </div>
           </div>
           <div class="controllers">
-            <button class="pause-btn">Pause session</button>
-            <button class="resume-btn">Resume session</button>
-            <button class="end-btn">End early</button>
+            <button type="button" class="pause-btn" id="pause-btn">
+              Pause session
+            </button>
+            <button class="resume-btn" id="resume-btn" hidden>
+              Resume session
+            </button>
+            <button class="end-btn" id="end-btn">End early</button>
           </div>
           <div class="blocking-status blocking-active">
             <span class="mask-icon icon-study-logo" aria-hidden="true"></span>
