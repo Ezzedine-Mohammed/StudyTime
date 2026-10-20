@@ -57,7 +57,6 @@
         class="session"
         aria-labelledby="session-heading"
         data-screen="session"
-        hidden
       >
         <div id="session-setup">
           <h1 id="session-heading" class="section-title">
@@ -66,17 +65,19 @@
           <p class="quote">Choose a goal and make time for it.</p>
           <form action="#" class="session-data">
             <div class="input-div session-title">
-              <label for="title" class="input-label">Session title</label>
-              <input type="text" id="title" required />
+              <label for="session-setup-title" class="input-label"
+                >Session title</label
+              >
+              <input type="text" id="session-setup-title" required />
               <p class="helper-text">A short name helps you find it later.</p>
             </div>
             <div class="input-div session-duration">
-              <label for="duration" class="input-label"
+              <label for="session-setup-duration" class="input-label"
                 >Duration (minutes)</label
               >
               <input
                 type="number"
-                id="duration"
+                id="session-setup-duration"
                 required
                 pattern=""
                 min="5"
@@ -98,7 +99,9 @@
                 <span class="notification-value">on</span>
               </p>
             </div>
-            <button type="submit" id="submit">Start session</button>
+            <button type="submit" id="submit" class="submit-session-data">
+              Start session
+            </button>
           </form>
         </div>
 
@@ -177,36 +180,92 @@
         </div>
       </section>
 
-      <section
-        class="history"
-        data-screen="history"
-        aria-labelledby="history-heading"
-      >
-        <h1 id="history-heading" class="section-title">Session history</h1>
-        <p class="helper-text">
-          Your completed and early-ended study sessions.
-        </p>
-        <ul class="history-list">
-          <!-- <li class="summary">
+      <section class="history" data-screen="history" hidden>
+        <div class="history-list-screen" aria-labelledby="history-heading">
+          <h1 id="history-heading" class="section-title">Session history</h1>
+          <p class="helper-text">
+            Your completed and early-ended study sessions.
+          </p>
+          <ul class="history-list">
+            <!-- <li class="summary">
             <div>
-              <p class="summary-session-title">
-                <span class="mask-icon icon-calender" aria-hidden="true"></span>
+              <p class="history-session-title">
+                <span class="mask-icon icon-calendar" aria-hidden="true"></span>
                 Database revision
               </p>
-              <p class="summary-date helper-text">September 29, 2026</p>
+              <p class="history-date helper-text">September 29, 2026</p>
             </div>
             <div>
-              <p class="summary-studded-time">22 min</p>
-              <p class="summary-ending-statues">Ended early</p>
+              <p class="history-study-time">22 min</p>
+              <p class="history-ending-status">Ended early</p>
               <button type="button" title="summary" class="summary-btn">
                 View summary
               </button>
             </div>
           </li> -->
-        </ul>
-        <div class="note">
-          <span class="mask-icon icon-info" aria-hidden="true"></span>
-          <p>Your current session appears here after it ends.</p>
+          </ul>
+          <div class="note">
+            <span class="mask-icon icon-info" aria-hidden="true"></span>
+            <p>Your current session appears here after it ends.</p>
+          </div>
+        </div>
+
+        <div class="summary-screen" aria-labelledby="summary-title" hidden>
+          <div class="summary-header">
+            <h1 id="summary-title" class="section-title">Session summary</h1>
+            <p class="summary-session-status">Completed</p>
+          </div>
+
+          <div class="summary-title">
+            <h2 class="summary-session-title">Algorithm Fundamentals</h2>
+            <p class="session-date helper-text">September 26, 2026</p>
+          </div>
+
+          <div class="metric-container">
+            <div class="metric">
+              <p class="helper-text">Recorded study time</p>
+              <p class="summary-study-time">45 min</p>
+            </div>
+            <div class="metric">
+              <p class="helper-text">Planned duration</p>
+              <p class="summary-planned-duration">45 min</p>
+            </div>
+            <div class="metric">
+              <p class="helper-text">Blocked attempts</p>
+              <p class="summary-attempts">7</p>
+            </div>
+            <div class="metric">
+              <p class="helper-text">Pauses</p>
+              <p class="summary-pauses">2</p>
+            </div>
+          </div>
+
+          <div class="start-end-time">
+            <div class="start">
+              <p class="helper-text">Started</p>
+              <p class="start-time">9:00 AM</p>
+            </div>
+            <div class="end">
+              <p class="helper-text">Ended</p>
+              <p class="end-time">9:50 AM</p>
+            </div>
+          </div>
+
+          <p class="helper-text">Recorded study time excludes pauses.</p>
+
+          <div class="note">
+            <i class="fa-solid fa-check"></i>
+            <p>You completed your planned session.</p>
+          </div>
+
+          <div class="summary-controls">
+            <button type="button" class="summary-new-session">
+              New session
+            </button>
+            <button type="button" class="summary-view-history">
+              View history
+            </button>
+          </div>
         </div>
       </section>
 
@@ -220,7 +279,7 @@
       >
         <button type="button" class="back">
           <i class="fa-solid fa-arrow-left-long" aria-hidden="true"></i>
-          <p>back</p>
+          <p>Back</p>
         </button>
         <h1 id="settings-heading" class="section-title">Notifications</h1>
         <div class="toggle-notification">

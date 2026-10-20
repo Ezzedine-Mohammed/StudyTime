@@ -68,7 +68,7 @@ ul {
     height: 16px;
 }
 
-.icon-calender {
+.icon-calendar {
     --icon-url: url("../assets/icons/calendar-icon.svg");
 
     color: var(--muted);
@@ -249,7 +249,7 @@ section {
     gap: 12px;
     padding: 12px;
     color: var(--brand);
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .session-setting> :first-child {
@@ -264,12 +264,13 @@ section {
     font-weight: 600;
 }
 
-#submit {
+.submit-session-data {
     color: white;
     background-color: var(--brand);
     border-radius: 12px;
     padding: 12px;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 600;
     text-align: center;
 }
 
@@ -629,6 +630,15 @@ section {
 
 /* start history */
 .history {
+
+    /* stylelint-disable-next-line no-descending-specificity */
+    &>div {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+
     .history-list {
         display: flex;
         flex-direction: column;
@@ -643,7 +653,7 @@ section {
             border: 1px solid var(--border-color);
             border-radius: 12px;
 
-            .summary-session-title {
+            .history-session-title {
                 margin-bottom: 6px;
                 color: var(--ink);
                 font-size: 16px;
@@ -662,13 +672,13 @@ section {
                 gap: 4px;
             }
 
-            .summary-studded-time {
+            .history-study-time {
                 color: var(--ink);
                 font-weight: 600;
                 font-size: 18px;
             }
 
-            .summary-ending-statues {
+            .history-ending-status {
                 padding: 3px 5px;
                 border-radius: 20px;
                 background-color: var(--amber-soft);
@@ -702,6 +712,108 @@ section {
             aspect-ratio: 1;
         }
     }
+
+    .summary-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4px;
+
+        .summary-session-status {
+            font-size: 14px;
+            line-height: 18px;
+            border-radius: 20px;
+            background-color: var(--mint);
+            color: var(--brand);
+            padding: 4px;
+            width: 124px;
+            text-align: center;
+        }
+
+    }
+
+    .summary-session-title {
+        margin-bottom: 6px;
+    }
+
+    .metric-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 12px;
+
+        .metric {
+            grid-column: span 1;
+            grid-row: span 1;
+            background-color: var(--mint);
+            border-radius: 12px;
+            padding: 15px 12px;
+
+            p:first-child {
+                margin-bottom: 6px;
+            }
+
+            p:last-child {
+                color: var(--ink);
+                font-size: 24px;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .start-end-time {
+        display: flex;
+        justify-content: space-between;
+
+        /* stylelint-disable-next-line no-descending-specificity */
+        div {
+            flex: 1;
+
+            /* stylelint-disable-next-line no-descending-specificity */
+            p:first-child {
+                margin-bottom: 6px;
+
+            }
+
+            /* stylelint-disable-next-line no-descending-specificity */
+            p:last-child {
+                color: var(--ink);
+                font-size: 16px;
+                font-weight: 600;
+            }
+        }
+    }
+
+    /* stylelint-disable-next-line no-descending-specificity */
+    .note>i {
+        color: var(--brand);
+    }
+
+    .summary-controls {
+        display: flex;
+        gap: 12px;
+
+        button {
+            flex: 1;
+            text-align: center;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px;
+        }
+
+        .summary-new-session {
+            color: var(--canvas);
+            background-color: var(--brand);
+        }
+
+        .summary-view-history {
+            color: var(--brand);
+            border: 1px solid var(--border-color);
+        }
+    }
+
+
 }
 
 /* start footer */
