@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StudyTime</title>
     <!-- font awesome -->
-    <link rel="stylesheet" href="all.min.css" />
+    <link rel="stylesheet" href="css/all.min.css" />
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,7 +16,7 @@
       rel="stylesheet"
     />
     <!-- css file -->
-    <link rel="stylesheet" href="popup.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <header>
@@ -43,7 +43,14 @@
           <button type="button" class="tab" data-view="site">Site</button>
         </li>
         <li>
-          <button type="button" class="tab" data-view="history">History</button>
+          <button
+            type="button"
+            id="history-btn"
+            class="tab"
+            data-view="history"
+          >
+            History
+          </button>
         </li>
         <li>
           <button type="button" class="tab" data-view="statistics">
@@ -121,7 +128,7 @@
               Planned duration: <span>45</span> minutes
             </p> -->
           </div>
-          <div class="timer">
+          <div class="timer" id="timer">
             <p class="timer-heading">Time remaining</p>
             <h2 class="remaining-time-data" id="remaining-time-data">00:00</h2>
             <p>
@@ -136,12 +143,12 @@
               <p>study-time</p>
               <p id="study-time">00:00</p>
             </div>
-            <div class="separator"></div>
+            <!-- <div class="separator"></div> -->
             <div class="counter pauses">
               <p>pauses</p>
               <p id="pause-count">0</p>
             </div>
-            <div class="separator"></div>
+            <!-- <div class="separator"></div> -->
             <div class="counter attempts">
               <p>attempts</p>
               <p id="attempts-count">0</p>
@@ -156,11 +163,15 @@
             </button>
             <button class="end-btn" id="end-btn">End early</button>
           </div>
-          <div class="blocking-status blocking-active">
+          <div class="blocking-status blocking-active" id="blocking-active">
             <span class="mask-icon icon-study-logo" aria-hidden="true"></span>
             <p>Website and notification blocking is active.</p>
           </div>
-          <div class="blocking-status blocking-paused">
+          <div
+            class="blocking-status blocking-paused"
+            id="blocking-paused"
+            hidden
+          >
             <span class="mask-icon icon-info" aria-hidden="true"></span>
             <p>Blocking is suspended while paused.</p>
           </div>
@@ -197,8 +208,12 @@
         </div>
       </section>
 
-      <section class="history" data-screen="history" hidden>
-        <div class="history-list-screen" aria-labelledby="history-heading">
+      <section class="history" data-screen="history" id="history" hidden>
+        <div
+          class="history-list-screen"
+          id="history-screen"
+          aria-labelledby="history-heading"
+        >
           <h1 id="history-heading" class="section-title">Session history</h1>
           <p class="helper-text">
             Your completed and early-ended study sessions.
@@ -227,7 +242,12 @@
           </div>
         </div>
 
-        <div class="summary-screen" aria-labelledby="summary-title" hidden>
+        <div
+          class="summary-screen"
+          id="summary-screen"
+          aria-labelledby="summary-title"
+          hidden
+        >
           <div class="summary-header">
             <h1 id="summary-title" class="section-title">Session summary</h1>
             <p class="summary-session-status">Completed</p>
@@ -361,6 +381,6 @@
       <p>Your data stays on this device.</p>
     </footer>
 
-    <script src="popup.js"></script>
+    <script type="module" src="js/popup.js"></script>
   </body>
 </html>

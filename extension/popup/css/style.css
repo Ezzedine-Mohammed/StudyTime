@@ -46,30 +46,30 @@ ul {
 
 /* Icon sources */
 .icon-settings {
-    --icon-url: url("../assets/icons/settings.svg");
+    --icon-url: url("../../assets/icons/settings.svg");
 }
 
 .icon-study-logo {
-    --icon-url: url("../assets/logo/logo.svg");
+    --icon-url: url("../../assets/logo/logo.svg");
 }
 
 .icon-info {
-    --icon-url: url("../assets/icons/info.svg");
+    --icon-url: url("../../assets/icons/info.svg");
 }
 
 .icon-globe {
-    --icon-url: url("../assets/icons/globe.svg");
+    --icon-url: url("../../assets/icons/globe.svg");
 }
 
 .icon-laptop {
-    --icon-url: url("../assets/icons/laptop.svg");
+    --icon-url: url("../../assets/icons/laptop.svg");
 
     width: 16px;
     height: 16px;
 }
 
 .icon-calendar {
-    --icon-url: url("../assets/icons/calendar-icon.svg");
+    --icon-url: url("../../assets/icons/calendar-icon.svg");
 
     color: var(--muted);
     width: 20px;
@@ -152,6 +152,7 @@ header {
 
 nav {
     box-shadow: 0 7px 10px -7px rgb(0 0 0 / 30%);
+    z-index: 2;
 }
 
 nav ul {
@@ -321,9 +322,9 @@ section {
     align-self: center;
     border: 5px solid transparent;
     background:
-        linear-gradient(white, white) padding-box,
-        conic-gradient(#176d59 0% 50%,
-            #dce4e0 50% 100%) border-box;
+        linear-gradient(white) padding-box,
+        conic-gradient(var(--brand) 0%,
+            #dce4e0 0) border-box
 }
 
 .timer-heading {
@@ -358,6 +359,7 @@ section {
 .counter :first-child {
     font-size: 12px;
     color: var(--muted);
+    margin-bottom: 6px;
 }
 
 .counter :last-child {
@@ -382,6 +384,7 @@ section {
     border-radius: 12px;
     padding: 12px;
     height: 44px;
+    font-weight: 600;
     text-align: center;
 }
 
