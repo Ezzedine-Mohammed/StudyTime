@@ -1,6 +1,7 @@
 import { navigate } from "./navigation.js";
 import { sessionData } from "./session.js";
 import { starterTimer, pauseTimer, resumeTimer } from "./timer.js";
+import { newSession, viewHistory, emptyHistory } from "./history.js";
 
 // Variables
 let onSession = false;
@@ -60,7 +61,7 @@ setupForm.addEventListener("submit", (e) => {
 
   sessionSubScreen();
   onSession = true;
-  console.log(sessionData);
+  // console.log(sessionData);
   // save input data to the database, use trim method with the title value
 });
 
@@ -72,7 +73,6 @@ document.addEventListener("click", (event) => {
   const tab = event.target.closest(".tab");
   if (tab) {
     navigate(tab);
-    console.log(tab);
   }
 
   // pause session listener
@@ -86,5 +86,22 @@ document.addEventListener("click", (event) => {
   if (resume) {
     resumeTimer();
   }
+
+  // summary new session
+  const summaryNewSessionBtn = event.target.closest("#summary-new-session");
+  if (summaryNewSessionBtn) {
+    newSession();
+  }
+  // summary view history
+  const summaryViewHistory = event.target.closest("#summary-view-history");
+  if (summaryViewHistory) {
+    viewHistory();
+  }
+  // summary view history
+  const historyNewSessionBtn = event.target.closest("#empty-history-btn");
+  if (historyNewSessionBtn) {
+    emptyHistory();
+  }
+
   return;
 });

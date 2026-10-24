@@ -1,5 +1,5 @@
 import { sessionData } from "./session.js";
-import { timesUp } from "./summary.js";
+import { timesUp } from "./history.js";
 
 // DOM elements
 const remainingTimeEle = document.getElementById("remaining-time-data");
@@ -45,6 +45,9 @@ export function starterTimer(duration) {
   endTime = Date.now() + sessionData.remainingMs;
 
   displayTime(sessionData.remainingMs);
+  timerCircle.style.background = `linear-gradient(white) padding-box,
+        conic-gradient(var(--brand) ${sessionData.studyTime}%,
+            #dce4e0 0) border-box`;
 
   timer = setInterval(() => {
     sessionData.remainingMs = Math.max(0, endTime - Date.now());
@@ -53,11 +56,11 @@ export function starterTimer(duration) {
     // percent of the studded time
     const totalMs = sessionData.duration * 60 * 1000;
 
-    percent = 100 - (sessionData.remainingMs / totalMs) * 100;
+    sessionData.studyTime = 100 - (sessionData.remainingMs / totalMs) * 100;
 
     // timer border
     timerCircle.style.background = `linear-gradient(white) padding-box,
-        conic-gradient(var(--brand) ${percent}%,
+        conic-gradient(var(--brand) ${sessionData.studyTime}%,
             #dce4e0 0) border-box`;
 
     if (sessionData.remainingMs === 0) {
@@ -86,7 +89,7 @@ export function pauseTimer() {
 
   // change timer border color
   timerCircle.style.background = `linear-gradient(white) padding-box,
-        conic-gradient(var(--muted) ${percent}%,
+        conic-gradient(var(--muted) ${sessionData.studyTime}%,
             #dce4e0 0) border-box`;
 }
 

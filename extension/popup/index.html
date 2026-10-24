@@ -35,7 +35,12 @@
     <nav>
       <ul>
         <li>
-          <button type="button" class="tab active" data-view="session">
+          <button
+            type="button"
+            class="tab active"
+            data-view="session"
+            id="session-tab"
+          >
             Session
           </button>
         </li>
@@ -45,7 +50,7 @@
         <li>
           <button
             type="button"
-            id="history-btn"
+            id="history-tab"
             class="tab"
             data-view="history"
           >
@@ -184,7 +189,7 @@
         data-screen="site"
         hidden
       >
-        <h1 id="site-heading">Blocked websites</h1>
+        <h1 id="site-heading" class="section-title">Blocked websites</h1>
         <p class="helper-text">Choose what stays out of your study time.</p>
         <form action="" class="site-form">
           <div class="form-content">
@@ -236,6 +241,23 @@
             </div>
           </li> -->
           </ul>
+          <div class="empty-history">
+            <div class="icon-container">
+              <span class="mask-icon icon-calendar" aria-hidden="true"></span>
+            </div>
+            <h2 class="empty-history-title">No saved sessions yet</h2>
+            <p class="empty-history-description">
+              Your sessions will appear here after you complete them or end them
+              early.
+            </p>
+            <button
+              type="button"
+              class="empty-history-btn"
+              id="empty-history-btn"
+            >
+              Start a session
+            </button>
+          </div>
           <div class="note">
             <span class="mask-icon icon-info" aria-hidden="true"></span>
             <p>Your current session appears here after it ends.</p>
@@ -250,41 +272,49 @@
         >
           <div class="summary-header">
             <h1 id="summary-title" class="section-title">Session summary</h1>
-            <p class="summary-session-status">Completed</p>
+            <p class="summary-session-status" id="summary-session-status">
+              Completed
+            </p>
           </div>
 
           <div class="summary-title">
-            <h2 class="summary-session-title">Algorithm Fundamentals</h2>
-            <p class="session-date helper-text">September 26, 2026</p>
+            <h2 class="summary-session-title" id="summary-session-title">
+              Session Title
+            </h2>
+            <p class="session-date helper-text" id="session-date">
+              month 00, 0000
+            </p>
           </div>
 
           <div class="metric-container">
             <div class="metric">
               <p class="helper-text">Recorded study time</p>
-              <p class="summary-study-time">45 min</p>
+              <p class="summary-study-time" id="summary-study-time">00 min</p>
             </div>
             <div class="metric">
               <p class="helper-text">Planned duration</p>
-              <p class="summary-planned-duration">45 min</p>
+              <p class="summary-planned-duration" id="summary-duration">
+                00 min
+              </p>
             </div>
             <div class="metric">
               <p class="helper-text">Blocked attempts</p>
-              <p class="summary-attempts">7</p>
+              <p class="summary-attempts" id="summary-attempts">0</p>
             </div>
             <div class="metric">
               <p class="helper-text">Pauses</p>
-              <p class="summary-pauses">2</p>
+              <p class="summary-pauses" id="summary-pauses">0</p>
             </div>
           </div>
 
           <div class="start-end-time">
             <div class="start">
               <p class="helper-text">Started</p>
-              <p class="start-time">9:00 AM</p>
+              <p class="start-time" id="start-time">9:00 AM</p>
             </div>
             <div class="end">
               <p class="helper-text">Ended</p>
-              <p class="end-time">9:50 AM</p>
+              <p class="end-time" id="end-time">9:50 AM</p>
             </div>
           </div>
 
@@ -296,17 +326,25 @@
           </div>
 
           <div class="summary-controls">
-            <button type="button" class="summary-new-session">
+            <button
+              type="button"
+              class="summary-new-session"
+              id="summary-new-session"
+            >
               New session
             </button>
-            <button type="button" class="summary-view-history">
+            <button
+              type="button"
+              class="summary-view-history"
+              id="summary-view-history"
+            >
               View history
             </button>
           </div>
         </div>
       </section>
 
-      <section class="statistics" data-screen="statistics"></section>
+      <section class="statistics" data-screen="statistics" hidden></section>
 
       <section
         class="settings"
