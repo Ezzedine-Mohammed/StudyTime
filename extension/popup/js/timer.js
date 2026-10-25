@@ -79,15 +79,9 @@ export function starterTimer(duration) {
       sessionData.end = Date.now();
       sessionData.status = "completed";
 
-      setupForm.reset();
-
-      const sessionSetup = document.getElementById("session-setup");
-      sessionSetup.hidden = false;
-      const activeSessionScreen = document.getElementById("session-active");
-      activeSessionScreen.hidden = true;
-
       try {
         await modifySession(sessionData);
+
         setupForm.reset();
 
         const sessionSetup = document.getElementById("session-setup");
