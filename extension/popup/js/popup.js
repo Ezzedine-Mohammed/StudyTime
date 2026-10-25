@@ -9,7 +9,7 @@ import { addSession } from "./sessionRepository.js";
 let isStartingSession = false;
 
 // DOM elements
-export const setupForm = document.getElementById("setup-form");
+const setupForm = document.getElementById("setup-form");
 const inputTitle = document.getElementById("session-setup-title");
 const submitBtns = [...document.querySelectorAll("[type='submit']")];
 
@@ -20,9 +20,9 @@ const remainingTimeEle = document.getElementById("remaining-time-data");
 // Navigate to the active session screen
 function sessionSubScreen() {
   // assign session data to session sub screen
-  activeSessionTitle.innerHTML = sessionData["title"];
-  activeSessionDuration.innerHTML = sessionData["duration"] + ":00";
-  remainingTimeEle.innerHTML = sessionData["duration"] + ":00";
+  activeSessionTitle.textContent = sessionData.title;
+  activeSessionDuration.textContent = sessionData.duration + ":00";
+  remainingTimeEle.textContent = sessionData.duration + ":00";
   starterTimer(sessionData["duration"]);
 
   // hide session setup div and unhide session active
@@ -66,12 +66,6 @@ setupForm.addEventListener("submit", async (e) => {
   if (isStartingSession) return;
 
   isStartingSession = true;
-
-  // Remember each button's previous state
-  const previousButtonStates = submitBtns.map((button) => ({
-    button,
-    disabled: button.disabled,
-  }));
 
   try {
     submitButtonsControl(true);

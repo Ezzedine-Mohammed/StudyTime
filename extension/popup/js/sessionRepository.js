@@ -42,7 +42,7 @@ export async function getAllSessions() {
 }
 
 // get session using id
-async function getSession(id) {
+export async function getSession(id) {
   const database = await db;
 
   return new Promise((resolve, reject) => {

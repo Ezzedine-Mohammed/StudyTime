@@ -14,7 +14,6 @@ export const db = new Promise((resolve, reject) => {
     }
 
     // User preferences
-    // note if the user has a previous version of the data base the user preferences will be erased
     if (!db.objectStoreNames.contains("settings")) {
       const settingsStore = db.createObjectStore("settings", {
         keyPath: "id",

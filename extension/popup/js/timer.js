@@ -1,5 +1,4 @@
 import { sessionData } from "./session.js";
-import { setupForm } from "./popup.js";
 import { timesUp } from "./history.js";
 import { modifySession } from "./sessionRepository.js";
 
@@ -13,6 +12,8 @@ const resumeBtn = document.getElementById("resume-btn");
 const blockingPaused = document.getElementById("blocking-paused");
 const blockingActive = document.getElementById("blocking-active");
 const timerCircle = document.getElementById("timer");
+
+const setupForm = document.getElementById("setup-form");
 
 // Timer variables
 let timer = null;
@@ -87,6 +88,13 @@ export function starterTimer(duration) {
 
       try {
         await modifySession(sessionData);
+        setupForm.reset();
+
+        const sessionSetup = document.getElementById("session-setup");
+        sessionSetup.hidden = false;
+        const activeSessionScreen = document.getElementById("session-active");
+        activeSessionScreen.hidden = true;
+
         timesUp();
       } catch (error) {
         console.error("Session completed, but saving failed:", error);
