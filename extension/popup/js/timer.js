@@ -1,5 +1,7 @@
 import { sessionData } from "./session.js";
+import { setupForm } from "./popup.js";
 import { timesUp } from "./history.js";
+import { modifySession } from "./sessionRepository.js";
 
 // DOM elements
 const remainingTimeEle = document.getElementById("remaining-time-data");
@@ -15,7 +17,6 @@ const timerCircle = document.getElementById("timer");
 // Timer variables
 let timer = null;
 let endTime = 0;
-let percent = 0;
 
 // Timer display
 function displayTime(remainingMs) {
@@ -41,71 +42,123 @@ function displayTime(remainingMs) {
 // Timer controls
 // Start timer
 export function starterTimer(duration) {
+  // Stop any previous interval
+  clearInterval(timer);
+
   sessionData.remainingMs = duration * 60 * 1000;
   endTime = Date.now() + sessionData.remainingMs;
 
   displayTime(sessionData.remainingMs);
-  timerCircle.style.background = `linear-gradient(white) padding-box,
-        conic-gradient(var(--brand) ${sessionData.studyTime}%,
-            #dce4e0 0) border-box`;
 
-  timer = setInterval(() => {
+  timerCircle.style.background = `linear-gradient(white, white) padding-box,
+    conic-gradient(var(--brand) ${sessionData.progressPercent}%,
+    #dce4e0 0) border-box`;
+
+  timer = setInterval(async () => {
+    // Calculate remaining time
     sessionData.remainingMs = Math.max(0, endTime - Date.now());
+
     displayTime(sessionData.remainingMs);
 
-    // percent of the studded time
+    // Calculate study progress
     const totalMs = sessionData.duration * 60 * 1000;
 
-    sessionData.studyTime = 100 - (sessionData.remainingMs / totalMs) * 100;
+    sessionData.progressPercent =
+      100 - (sessionData.remainingMs / totalMs) * 100;
 
-    // timer border
-    timerCircle.style.background = `linear-gradient(white) padding-box,
-        conic-gradient(var(--brand) ${sessionData.studyTime}%,
-            #dce4e0 0) border-box`;
+    // Update the timer border
+    timerCircle.style.background = `linear-gradient(white, white) padding-box,
+      conic-gradient(var(--brand) ${sessionData.progressPercent}%,
+      #dce4e0 0) border-box`;
 
     if (sessionData.remainingMs === 0) {
-      sessionData.end = Date.now();
-      sessionData.status = "Completed";
-      timesUp();
+      // Stop the interval before waiting for the database
       clearInterval(timer);
-      // Handle session completion here later
+
+      sessionData.end = Date.now();
+      sessionData.status = "completed";
+
+      setupForm.reset();
+
+      const sessionSetup = document.getElementById("session-setup");
+      sessionSetup.hidden = false;
+      const activeSessionScreen = document.getElementById("session-active");
+      activeSessionScreen.hidden = true;
+
+      try {
+        await modifySession(sessionData);
+        timesUp();
+      } catch (error) {
+        console.error("Session completed, but saving failed:", error);
+      }
     }
   }, 1000);
 }
 
 // Pause timer
-export function pauseTimer() {
-  // Save the exact remaining time at the moment of pausing
-  sessionData.remainingMs = Math.max(0, endTime - Date.now());
+export async function pauseTimer() {
+  // Prevent pausing an already paused or finished session
+  if (sessionData.status !== "active") return;
+
   clearInterval(timer);
 
+  // Save the exact remaining time at the moment of pausing
+  sessionData.remainingMs = Math.max(0, endTime - Date.now());
+  sessionData.status = "paused";
+  sessionData.pauseCount++;
+
+  sessionData.progressPercent =
+    100 - (sessionData.remainingMs / (sessionData.duration * 60000)) * 100;
+
+  // Update the interface
   sessionStatusEle.textContent = "paused";
   sessionStatusEle.classList.add("pause");
   pauseBtn.hidden = true;
   resumeBtn.hidden = false;
-  sessionData.pauseCount++;
+
+  displayTime(sessionData.remainingMs);
+
   blockingActive.hidden = true;
   blockingPaused.hidden = false;
 
-  // change timer border color
   timerCircle.style.background = `linear-gradient(white) padding-box,
-        conic-gradient(var(--muted) ${sessionData.studyTime}%,
-            #dce4e0 0) border-box`;
+    conic-gradient(var(--muted) ${sessionData.progressPercent}%,
+    #dce4e0 0) border-box`;
+
+  // Persist the paused session
+  try {
+    await modifySession(sessionData);
+  } catch (error) {
+    console.error("Session paused, but saving failed:", error);
+  }
 }
 
 // Resume timer
-export function resumeTimer() {
+export async function resumeTimer() {
+  // Prevent resuming an already active or finished session
+  if (sessionData.status !== "paused") return;
+
+  sessionData.status = "active";
+
+  // Update the interface
   sessionStatusEle.textContent = "active";
   sessionStatusEle.classList.remove("pause");
   pauseBtn.hidden = false;
   resumeBtn.hidden = true;
+
   blockingActive.hidden = false;
   blockingPaused.hidden = true;
 
   // timer border
   timerCircle.style.background = `linear-gradient(white) padding-box,
-        conic-gradient(var(--brand) ${percent}%,
-            #dce4e0 0) border-box`;
+  conic-gradient(var(--brand) ${sessionData.progressPercent}%,
+  #dce4e0 0) border-box`;
 
   starterTimer(sessionData.remainingMs / 60000);
+
+  try {
+    await modifySession(sessionData);
+  } catch (error) {
+    console.error("Session resumed, but saving failed:", error);
+  }
 }

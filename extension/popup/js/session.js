@@ -6,7 +6,7 @@ export const sessionData = {
   title: "",
   duration: 0,
   remainingMs: 0,
-  studyTime: 0,
+  progressPercent: 0,
   pauseCount: 0,
   attempts: 0,
 };

@@ -1,14 +1,17 @@
+import "./db.js";
 import { navigate } from "./navigation.js";
 import { sessionData } from "./session.js";
 import { starterTimer, pauseTimer, resumeTimer } from "./timer.js";
 import { newSession, viewHistory, emptyHistory } from "./history.js";
+import { addSession } from "./sessionRepository.js";
 
-// Variables
-let onSession = false;
+// variables
+let isStartingSession = false;
 
 // DOM elements
-const setupForm = document.getElementById("setup-form");
+export const setupForm = document.getElementById("setup-form");
 const inputTitle = document.getElementById("session-setup-title");
+const submitBtns = [...document.querySelectorAll("[type='submit']")];
 
 const activeSessionTitle = document.getElementById("session-title-data");
 const activeSessionDuration = document.getElementById("session-duration-data");
@@ -48,24 +51,63 @@ inputTitle.addEventListener("input", () => {
   }
 });
 
+// enable, disable submit btns
+function submitButtonsControl(disabled) {
+  submitBtns.forEach((button) => {
+    button.disabled = disabled;
+  });
+}
+
 // Submit the session setup form
-setupForm.addEventListener("submit", (e) => {
+setupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  onSession = true;
-  let titleInput = setupForm.elements["session-setup-title"].value;
-  let durationInput = setupForm.elements["session-setup-duration"].value;
-  sessionData.title = titleInput;
-  sessionData.duration = durationInput;
-  sessionData.start = Date.now();
-  sessionData.status = "Still on";
 
-  sessionSubScreen();
-  onSession = true;
-  // console.log(sessionData);
-  // save input data to the database, use trim method with the title value
+  // Prevent repeated submissions while saving
+  if (isStartingSession) return;
+
+  isStartingSession = true;
+
+  // Remember each button's previous state
+  const previousButtonStates = submitBtns.map((button) => ({
+    button,
+    disabled: button.disabled,
+  }));
+
+  try {
+    submitButtonsControl(true);
+
+    // Read the form values
+    const title = setupForm.elements["session-setup-title"].value.trim();
+
+    const duration = setupForm.elements["session-setup-duration"].valueAsNumber;
+
+    // Prepare the new session data
+    sessionData.title = title;
+    sessionData.duration = duration;
+    sessionData.start = Date.now();
+    sessionData.end = null;
+    sessionData.status = "active";
+    sessionData.remainingMs = duration * 60 * 1000;
+    sessionData.progressPercent = 0;
+    sessionData.pauseCount = 0;
+    sessionData.attempts = 0;
+
+    // Let IndexedDB generate a new ID
+    delete sessionData.id;
+
+    // Save the session and keep its generated ID
+    const sessionId = await addSession(sessionData);
+    sessionData.id = sessionId;
+
+    // Start the timer and display the active session
+    sessionSubScreen();
+  } catch (error) {
+    console.error("Could not start the session:", error);
+  } finally {
+    isStartingSession = false;
+    submitButtonsControl(false);
+  }
 });
-
-setupForm;
 
 // Navigation and session controls
 document.addEventListener("click", (event) => {

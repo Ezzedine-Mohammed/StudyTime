@@ -60,6 +60,8 @@ export function newSession() {
   navigate(sessionTab);
   historyScreen.hidden = false;
   summaryScreen.hidden = true;
+  document.getElementById("session-setup").hidden = false;
+  document.getElementById("session-active").hidden = true;
 }
 export function viewHistory() {
   navigate(historyTab);
