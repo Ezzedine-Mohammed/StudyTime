@@ -116,21 +116,33 @@ export async function displaySessions() {
     const activeMinutes = Math.floor(activeStudy / 60);
     const activeSeconds = activeStudy % 60;
 
-    ulList.innerHTML += `<li class="summary">
-        <div class="history-session-title">
-        <span class="mask-icon icon-calendar" aria-hidden="true"></span>
-        <p dir="auto">
-            ${session.title}
-          </p>
-          <p class="history-date helper-text">${dateFormat}</p>
-        </div>
-        <div>
-          <p class="history-study-time">${String(activeMinutes).padStart(2, "0")}:${String(activeSeconds).padStart(2, "0")} min</p>
-          <p class="history-ending-status">${session.status}</p>
-          <button type="button" title="summary" class="summary-btn" data-sessionId= "${session.id}">
-            View summary
-          </button>
-        </div>
-      </li>`;
+    const li = document.createElement("li");
+    li.className = "summary";
+
+    li.innerHTML = `
+    <div class="history-session-title">
+      <span class="mask-icon icon-calendar" aria-hidden="true"></span>
+      <p dir="auto"></p>
+      <p class="history-date helper-text">${dateFormat}</p>
+    </div>
+    <div>
+      <p class="history-study-time">
+        ${String(activeMinutes).padStart(2, "0")}:${String(activeSeconds).padStart(2, "0")} min
+      </p>
+      <p class="history-ending-status"></p>
+      <button type="button" title="summary" class="summary-btn">
+        View summary
+      </button>
+    </div>
+    `;
+
+    li.querySelector(".history-session-title > p").textContent = session.title;
+
+    li.querySelector(".history-ending-status").textContent = session.status;
+
+    // Keep the same dataset key used by your current listener
+    li.querySelector(".summary-btn").dataset.sessionid = session.id;
+
+    ulList.append(li);
   });
 }
