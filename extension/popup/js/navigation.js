@@ -1,5 +1,10 @@
+import { displaySessions } from "./history.js";
+
+// dom elements
+const main = document.getElementById("main");
+
 // Navigation
-export function navigate(tab) {
+export async function navigate(tab) {
   // Find the destination screen
   const destination = tab.dataset.view;
   const nextScreen = document.querySelector(`[data-screen="${destination}"]`);
@@ -25,4 +30,14 @@ export function navigate(tab) {
   // Activate the destination tab and show its screen
   tab.classList.add("active");
   nextScreen.hidden = false;
+
+  if (nextScreen.dataset.screen === "history") {
+    try {
+      await displaySessions();
+    } catch (error) {
+      console.error("Could not start the session:", error);
+    }
+  }
+
+  main.scrollTo({ top: 0 });
 }

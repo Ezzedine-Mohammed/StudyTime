@@ -11,7 +11,6 @@ export async function addSession(session) {
 
     // The entire transaction completed successfully
     transaction.oncomplete = () => {
-      console.log(session);
       resolve(request.result);
     };
 
@@ -22,7 +21,7 @@ export async function addSession(session) {
   });
 }
 
-// Read all sessions from the database
+// Read completed and early-ended sessions in descending ID order
 export async function getAllSessions() {
   const database = await db;
 
@@ -32,7 +31,15 @@ export async function getAllSessions() {
     const request = store.getAll();
 
     transaction.oncomplete = () => {
-      resolve(request.result);
+      resolve(
+        request.result
+          .filter(
+            (session) =>
+              session.status === "Completed" ||
+              session.status === "Ended early",
+          )
+          .reverse(),
+      );
     };
 
     transaction.onabort = () => {
@@ -74,7 +81,6 @@ export async function modifySession(session) {
 
     transaction.oncomplete = () => {
       resolve();
-      // console.log(session);
     };
 
     transaction.onabort = () => {

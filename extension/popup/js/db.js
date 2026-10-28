@@ -62,8 +62,6 @@ export const db = new Promise((resolve, reject) => {
       console.warn("Database changed. Reload this page.");
     };
 
-    console.log("Database ready:", db.name);
-
     resolve(db);
   };
 

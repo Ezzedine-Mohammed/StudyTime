@@ -61,28 +61,6 @@ function displayTime(remainingMs) {
     ) border-box`;
 }
 
-// Resume timer
-export async function resumeTimer() {
-  // Prevent resuming an already active or finished session
-  if (sessionData.status !== "paused") return;
-
-  if (sessionData.remainingMs <= 0) {
-    // Handle session completion here
-    await finishedSession();
-    return;
-  }
-
-  sessionData.status = "active";
-
-  starterTimer(sessionData.remainingMs / 60000);
-
-  try {
-    await modifySession(sessionData);
-  } catch (error) {
-    console.error("Session resumed, but saving failed:", error);
-  }
-}
-
 // Reset the session screens after saving
 function resetSessionView() {
   setupForm.reset();
@@ -103,7 +81,7 @@ async function finishedSession() {
   }
 
   sessionData.status =
-    sessionData.remainingMs === 0 ? "Completed" : "EndedEarly";
+    sessionData.remainingMs === 0 ? "Completed" : "Ended early";
 
   sessionData.progressPercent =
     100 - (sessionData.remainingMs / (sessionData.duration * 60000)) * 100;
@@ -115,7 +93,17 @@ async function finishedSession() {
     await modifySession(sessionData);
 
     resetSessionView();
-    timesUp();
+    timesUp(sessionData);
+
+    sessionData.start = null;
+    sessionData.end = null;
+    sessionData.status = "";
+    sessionData.title = "";
+    sessionData.duration = 0;
+    sessionData.remainingMs = 0;
+    sessionData.progressPercent = 0;
+    sessionData.pauseCount = 0;
+    sessionData.attempts = 0;
   } catch (error) {
     console.error("Session ended, but saving failed:", error);
   }
@@ -189,5 +177,27 @@ export async function pauseTimer() {
     await modifySession(sessionData);
   } catch (error) {
     console.error("Session paused, but saving failed:", error);
+  }
+}
+
+// Resume timer
+export async function resumeTimer() {
+  // Prevent resuming an already active or finished session
+  if (sessionData.status !== "paused") return;
+
+  if (sessionData.remainingMs <= 0) {
+    // Handle session completion here
+    await finishedSession();
+    return;
+  }
+
+  sessionData.status = "active";
+
+  starterTimer(sessionData.remainingMs / 60000);
+
+  try {
+    await modifySession(sessionData);
+  } catch (error) {
+    console.error("Session resumed, but saving failed:", error);
   }
 }

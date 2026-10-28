@@ -64,7 +64,7 @@
         </li>
       </ul>
     </nav>
-    <main>
+    <main id="main">
       <section
         class="session"
         aria-labelledby="session-heading"
@@ -86,6 +86,7 @@
                 name="session-setup-title"
                 required
                 maxlength="51"
+                dir="auto"
               />
               <p class="helper-text">A short name helps you find it later.</p>
             </div>
@@ -126,8 +127,8 @@
         <div id="session-active" hidden>
           <div class="on-session-heading">
             <p class="status" id="status">active</p>
-            <h1 class="session-title-data" id="session-title-data">
-              Software Engineering review
+            <h1 class="session-title-data" id="session-title-data" dir="auto">
+              Session title
             </h1>
             <!-- <p class="session-duration-data" id="session-duration-data">
               Planned duration: <span>45</span> minutes
@@ -201,6 +202,11 @@
             </div>
           </div>
         </div>
+
+        <div class="notification" id="notification" hidden>
+          <span class="mask-icon icon-info"></span>
+          <p>Can not start two sessions at the exact time.</p>
+        </div>
       </section>
 
       <section
@@ -243,11 +249,11 @@
           <p class="helper-text">
             Your completed and early-ended study sessions.
           </p>
-          <ul class="history-list">
+          <ul class="history-list" id="history-list">
             <!-- <li class="summary">
-            <div>
-              <p class="history-session-title">
-                <span class="mask-icon icon-calendar" aria-hidden="true"></span>
+            <div class="history-session-title">
+              <span class="mask-icon icon-calendar" aria-hidden="true"></span>
+              <p dir="auto">
                 Database revision
               </p>
               <p class="history-date helper-text">September 29, 2026</p>
@@ -293,12 +299,16 @@
           <div class="summary-header">
             <h1 id="summary-title" class="section-title">Session summary</h1>
             <p class="summary-session-status" id="summary-session-status">
-              Completed
+              Session status
             </p>
           </div>
 
           <div class="summary-title">
-            <h2 class="summary-session-title" id="summary-session-title">
+            <h2
+              class="summary-session-title"
+              id="summary-session-title"
+              dir="auto"
+            >
               Session Title
             </h2>
             <p class="session-date helper-text" id="session-date">

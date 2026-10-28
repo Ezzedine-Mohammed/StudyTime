@@ -667,19 +667,23 @@ section {
             padding: 10px 14px;
             display: flex;
             justify-content: space-between;
+            gap: 25px;
             align-items: center;
             border: 1px solid var(--border-color);
             border-radius: 12px;
 
             .history-session-title {
-                margin-bottom: 6px;
-                color: var(--ink);
-                font-size: 16px;
-                font-weight: 600;
-                display: flex;
-                align-items: center;
-                gap: 6px;
+                flex: 1;
 
+                p:first-of-type {
+                    margin-bottom: 8px;
+                    color: var(--ink);
+                    font-size: 16px;
+                    font-weight: 600;
+                    display: inline-block;
+                    width: calc(100% - 25px);
+                    vertical-align: middle;
+                }
             }
 
             /* stylelint-disable-next-line no-descending-specificity */
@@ -687,7 +691,9 @@ section {
                 text-align: center;
                 display: flex;
                 flex-direction: column;
-                gap: 4px;
+                gap: 8px;
+                width: 100px;
+                flex-shrink: 0;
             }
 
             .history-study-time {
@@ -738,6 +744,7 @@ section {
             font-weight: 600;
         }
 
+        /* stylelint-disable-next-line no-descending-specificity */
         p {
             color: var(--muted);
             font-size: 14px;
@@ -812,10 +819,12 @@ section {
             border-radius: 12px;
             padding: 15px 12px;
 
+            /* stylelint-disable-next-line no-descending-specificity */
             p:first-child {
                 margin-bottom: 6px;
             }
 
+            /* stylelint-disable-next-line no-descending-specificity */
             p:last-child {
                 color: var(--ink);
                 font-size: 24px;
@@ -935,6 +944,40 @@ section {
         }
     }
 }
+
+/* start notification */
+.session>.notification {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    padding: 12px;
+    position: absolute;
+    top: 15px;
+    width: 386px;
+    left: 50%;
+    transform: translate(-50%, -60px);
+    margin: 0 auto;
+    border-radius: 12px;
+    color: #fff;
+    background-color: #F44336;
+    animation: slide-down 0.5s ease-in-out 1 forwards;
+
+    .icon-info {
+        width: 20px;
+        height: 20px;
+        color: white;
+    }
+
+}
+
+@keyframes slide-down {
+    to {
+        transform: translate(-50%, 0);
+    }
+}
+
 
 /* start footer */
 footer {

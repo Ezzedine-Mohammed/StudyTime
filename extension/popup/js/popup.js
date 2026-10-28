@@ -2,8 +2,13 @@ import "./db.js";
 import { navigate } from "./navigation.js";
 import { sessionData } from "./session.js";
 import { starterTimer, pauseTimer, resumeTimer, confirmEnd } from "./timer.js";
-import { newSession, viewHistory, emptyHistory } from "./history.js";
-import { addSession } from "./sessionRepository.js";
+import {
+  newSession,
+  viewHistory,
+  emptyHistory,
+  displaySummaryData,
+} from "./history.js";
+import { addSession, getSession } from "./sessionRepository.js";
 
 // variables
 let isStartingSession = false;
@@ -106,11 +111,11 @@ setupForm.addEventListener("submit", async (e) => {
 });
 
 // Navigation and session controls
-document.addEventListener("click", (event) => {
+document.addEventListener("click", async (event) => {
   // navigate listener
   const tab = event.target.closest(".tab");
   if (tab) {
-    navigate(tab);
+    await navigate(tab);
   }
 
   // pause session listener
@@ -157,6 +162,18 @@ document.addEventListener("click", (event) => {
   const confirm = event.target.closest("#confirm-btn");
   if (confirm) {
     confirmEnd();
+  }
+
+  // View summary
+  const viewSummary = event.target.closest(".summary-btn");
+  if (viewSummary) {
+    const id = Number(viewSummary.dataset.sessionid);
+    const session = await getSession(id);
+    try {
+      displaySummaryData(session);
+    } catch (error) {
+      console.error("Session ended, but saving failed:", error);
+    }
   }
 
   return;
