@@ -1,7 +1,7 @@
 import "./db.js";
 import { navigate } from "./navigation.js";
 import { sessionData } from "./session.js";
-import { starterTimer, pauseTimer, resumeTimer } from "./timer.js";
+import { starterTimer, pauseTimer, resumeTimer, confirmEnd } from "./timer.js";
 import { newSession, viewHistory, emptyHistory } from "./history.js";
 import { addSession } from "./sessionRepository.js";
 
@@ -16,6 +16,8 @@ const submitBtns = [...document.querySelectorAll("[type='submit']")];
 const activeSessionTitle = document.getElementById("session-title-data");
 const activeSessionDuration = document.getElementById("session-duration-data");
 const remainingTimeEle = document.getElementById("remaining-time-data");
+
+const endEarlyScreen = document.getElementById("end-early");
 
 // Navigate to the active session screen
 function sessionSubScreen() {
@@ -139,5 +141,27 @@ document.addEventListener("click", (event) => {
     emptyHistory();
   }
 
+  // open end
+  const endEarly = event.target.closest("#end-btn");
+  if (endEarly) {
+    endEarlyScreen.hidden = false;
+  }
+
+  // end early cancel
+  const cancelBtn = event.target.closest("#cancel-btn");
+  if (cancelBtn) {
+    cancel();
+  }
+
+  // confirm end early
+  const confirm = event.target.closest("#confirm-btn");
+  if (confirm) {
+    confirmEnd();
+  }
+
   return;
 });
+
+function cancel() {
+  endEarlyScreen.hidden = true;
+}

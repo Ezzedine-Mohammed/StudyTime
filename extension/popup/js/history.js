@@ -27,9 +27,9 @@ export function timesUp() {
 }
 
 function displaySummaryData() {
-  summaryStatus.innerText = sessionData.status;
-  summaryTitle.innerText = sessionData.title;
-  summaryDate.innerText = new Date(sessionData.end).toLocaleDateString(
+  summaryStatus.textContent = sessionData.status;
+  summaryTitle.textContent = sessionData.title;
+  summaryDate.textContent = new Date(sessionData.end).toLocaleDateString(
     "en-US",
     {
       month: "long",
@@ -37,20 +37,21 @@ function displaySummaryData() {
       year: "numeric",
     },
   );
-  const activeStudy =
-    (sessionData.duration * 60 * 1000 - sessionData.remainingMs) / 1000;
+  const activeStudy = Math.floor(
+    (sessionData.duration * 60 * 1000 - sessionData.remainingMs) / 1000,
+  );
   const activeMinutes = Math.floor(activeStudy / 60);
   const activeSeconds = activeStudy % 60;
   summaryStudyTime.textContent = `${String(activeMinutes).padStart(2, "0")}:${String(activeSeconds).padStart(2, "0")} min`;
-  summaryDuration.innerText = sessionData.duration + " min";
-  summaryAttempts.innerText = sessionData.attempts;
-  summaryPauses.innerText = sessionData.pauseCount;
+  summaryDuration.textContent = sessionData.duration + " min";
+  summaryAttempts.textContent = sessionData.attempts;
+  summaryPauses.textContent = sessionData.pauseCount;
   const timeOptions = { hour: "2-digit", minute: "2-digit", hour12: true };
-  summaryStart.innerText = new Date(sessionData.start).toLocaleTimeString(
+  summaryStart.textContent = new Date(sessionData.start).toLocaleTimeString(
     "en-US",
     timeOptions,
   );
-  summaryEnd.innerText = new Date(sessionData.end).toLocaleTimeString(
+  summaryEnd.textContent = new Date(sessionData.end).toLocaleTimeString(
     "en-US",
     timeOptions,
   );

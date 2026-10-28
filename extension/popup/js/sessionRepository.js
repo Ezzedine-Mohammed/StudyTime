@@ -74,7 +74,7 @@ export async function modifySession(session) {
 
     transaction.oncomplete = () => {
       resolve();
-      console.log(session);
+      // console.log(session);
     };
 
     transaction.onabort = () => {

@@ -15,11 +15,13 @@ const timerCircle = document.getElementById("timer");
 
 const setupForm = document.getElementById("setup-form");
 
+const endEarlyScreen = document.getElementById("end-early");
+
 // Timer variables
 let timer = null;
 let endTime = 0;
 
-// Timer display
+// Update the timer and session interface
 function displayTime(remainingMs) {
   // Remaining time
   const totalSeconds = Math.ceil(remainingMs / 1000);
@@ -36,30 +38,111 @@ function displayTime(remainingMs) {
 
   studyTimeEle.textContent = `${activeMinutes}:${String(activeSeconds).padStart(2, "0")}`;
 
-  // Pause counter
+  // Session status and counters
+  sessionStatusEle.textContent = sessionData.status;
   pauseCounterEle.textContent = sessionData.pauseCount;
+
+  sessionStatusEle.classList.toggle("pause", sessionData.status === "paused");
+
+  // Session controls
+  pauseBtn.hidden = sessionData.status !== "active";
+  resumeBtn.hidden = sessionData.status !== "paused";
+
+  // Blocking indicators
+  blockingActive.hidden = sessionData.status !== "active";
+  blockingPaused.hidden = sessionData.status !== "paused";
+
+  // Timer border
+  timerCircle.style.background = `linear-gradient(white, white) padding-box,
+    conic-gradient(
+      ${sessionData.status === "paused" ? "var(--muted)" : "var(--brand)"}
+      ${sessionData.progressPercent}%,
+      #dce4e0 0
+    ) border-box`;
 }
 
-// Timer controls
-// Start timer
+// Resume timer
+export async function resumeTimer() {
+  // Prevent resuming an already active or finished session
+  if (sessionData.status !== "paused") return;
+
+  if (sessionData.remainingMs <= 0) {
+    // Handle session completion here
+    await finishedSession();
+    return;
+  }
+
+  sessionData.status = "active";
+
+  starterTimer(sessionData.remainingMs / 60000);
+
+  try {
+    await modifySession(sessionData);
+  } catch (error) {
+    console.error("Session resumed, but saving failed:", error);
+  }
+}
+
+// Reset the session screens after saving
+function resetSessionView() {
+  setupForm.reset();
+
+  document.getElementById("session-setup").hidden = false;
+  document.getElementById("session-active").hidden = true;
+  endEarlyScreen.hidden = true;
+}
+
+async function finishedSession() {
+  clearInterval(timer);
+
+  sessionData.end = Date.now();
+
+  // Update remaining time only if the session is active
+  if (sessionData.status === "active") {
+    sessionData.remainingMs = Math.max(0, endTime - sessionData.end);
+  }
+
+  sessionData.status =
+    sessionData.remainingMs === 0 ? "Completed" : "EndedEarly";
+
+  sessionData.progressPercent =
+    100 - (sessionData.remainingMs / (sessionData.duration * 60000)) * 100;
+
+  displayTime(sessionData.remainingMs);
+  endEarlyScreen.hidden = true;
+
+  try {
+    await modifySession(sessionData);
+
+    resetSessionView();
+    timesUp();
+  } catch (error) {
+    console.error("Session ended, but saving failed:", error);
+  }
+}
+
+export async function confirmEnd() {
+  if (sessionData.status !== "active" && sessionData.status !== "paused") {
+    return;
+  }
+
+  await finishedSession();
+}
+
+// // Start timer
 export function starterTimer(duration) {
   // Stop any previous interval
   clearInterval(timer);
 
+  // change this before lunching the project
   sessionData.remainingMs = duration * 60 * 1000;
   endTime = Date.now() + sessionData.remainingMs;
 
   displayTime(sessionData.remainingMs);
 
-  timerCircle.style.background = `linear-gradient(white, white) padding-box,
-    conic-gradient(var(--brand) ${sessionData.progressPercent}%,
-    #dce4e0 0) border-box`;
-
   timer = setInterval(async () => {
     // Calculate remaining time
     sessionData.remainingMs = Math.max(0, endTime - Date.now());
-
-    displayTime(sessionData.remainingMs);
 
     // Calculate study progress
     const totalMs = sessionData.duration * 60 * 1000;
@@ -67,34 +150,13 @@ export function starterTimer(duration) {
     sessionData.progressPercent =
       100 - (sessionData.remainingMs / totalMs) * 100;
 
-    // Update the timer border
-    timerCircle.style.background = `linear-gradient(white, white) padding-box,
-      conic-gradient(var(--brand) ${sessionData.progressPercent}%,
-      #dce4e0 0) border-box`;
+    // Update the interface after updating the data
+    displayTime(sessionData.remainingMs);
 
     if (sessionData.remainingMs === 0) {
-      // Stop the interval before waiting for the database
-      clearInterval(timer);
-
-      sessionData.end = Date.now();
-      sessionData.status = "completed";
-
-      try {
-        await modifySession(sessionData);
-
-        setupForm.reset();
-
-        const sessionSetup = document.getElementById("session-setup");
-        sessionSetup.hidden = false;
-        const activeSessionScreen = document.getElementById("session-active");
-        activeSessionScreen.hidden = true;
-
-        timesUp();
-      } catch (error) {
-        console.error("Session completed, but saving failed:", error);
-      }
+      await finishedSession();
     }
-  }, 1000);
+  }, 100);
 }
 
 // Pause timer
@@ -106,6 +168,13 @@ export async function pauseTimer() {
 
   // Save the exact remaining time at the moment of pausing
   sessionData.remainingMs = Math.max(0, endTime - Date.now());
+
+  // Complete the session if its time has already elapsed
+  if (sessionData.remainingMs === 0) {
+    await finishedSession();
+    return;
+  }
+
   sessionData.status = "paused";
   sessionData.pauseCount++;
 
@@ -113,54 +182,12 @@ export async function pauseTimer() {
     100 - (sessionData.remainingMs / (sessionData.duration * 60000)) * 100;
 
   // Update the interface
-  sessionStatusEle.textContent = "paused";
-  sessionStatusEle.classList.add("pause");
-  pauseBtn.hidden = true;
-  resumeBtn.hidden = false;
-
   displayTime(sessionData.remainingMs);
-
-  blockingActive.hidden = true;
-  blockingPaused.hidden = false;
-
-  timerCircle.style.background = `linear-gradient(white) padding-box,
-    conic-gradient(var(--muted) ${sessionData.progressPercent}%,
-    #dce4e0 0) border-box`;
 
   // Persist the paused session
   try {
     await modifySession(sessionData);
   } catch (error) {
     console.error("Session paused, but saving failed:", error);
-  }
-}
-
-// Resume timer
-export async function resumeTimer() {
-  // Prevent resuming an already active or finished session
-  if (sessionData.status !== "paused") return;
-
-  sessionData.status = "active";
-
-  // Update the interface
-  sessionStatusEle.textContent = "active";
-  sessionStatusEle.classList.remove("pause");
-  pauseBtn.hidden = false;
-  resumeBtn.hidden = true;
-
-  blockingActive.hidden = false;
-  blockingPaused.hidden = true;
-
-  // timer border
-  timerCircle.style.background = `linear-gradient(white) padding-box,
-  conic-gradient(var(--brand) ${sessionData.progressPercent}%,
-  #dce4e0 0) border-box`;
-
-  starterTimer(sessionData.remainingMs / 60000);
-
-  try {
-    await modifySession(sessionData);
-  } catch (error) {
-    console.error("Session resumed, but saving failed:", error);
   }
 }
