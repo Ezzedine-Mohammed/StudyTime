@@ -1,5 +1,11 @@
-/* import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+/* font */
+@font-face {
+    font-family: Inter;
+    src: url("../../assets/fonts/Inter-Variable.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
 
 /* variables */
 :root {
@@ -443,6 +449,7 @@ section {
 .site-form {
     display: flex;
     align-items: center;
+
 }
 
 .site-form .form-content {
@@ -472,8 +479,80 @@ section {
     width: 104px;
 }
 
-.empty-link-list {
+.site-list {
+    flex: 1;
+    overflow: auto;
+}
+
+.domain {
+    padding: 14px;
+    background-color: var(--canvas);
+    border-radius: 12px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &>div {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    i {
+        color: var(--muted);
+        font-size: 16px;
+    }
+
+    p {
+        color: var(--ink);
+    }
+
+    .toggle-btn {
+        position: relative;
+        width: 36px;
+        height: 24px;
+        background-color: var(--brand);
+        border-radius: 20px;
+        transition: 0.3s;
+
+        span {
+            height: 18px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background-color: white;
+            display: block;
+            transition: 0.3s;
+            position: absolute;
+            top: 50%;
+            left: 4px;
+            transform: translateY(-50%);
+        }
+
+    }
+
+    .toggle-btn.off {
+        background-color: var(--mint);
+    }
+
+    .toggle-btn.off span {
+        transform: translate(10px, -50%);
+    }
+
+    .trash-icon {
+        transition: 0.2s;
+    }
+
+    .trash-icon:hover {
+        color: var(--danger);
+    }
+}
+
+.domain:not(:last-child) {
+    margin-bottom: 12px;
+}
+
+.empty-link-list {
+    display: none;
     flex-direction: column;
     align-items: center;
     text-align: center;
@@ -486,6 +565,10 @@ section {
 .empty-link-list>.mask-icon {
     width: 64px;
     height: 64px;
+}
+
+.site:not(:has(li)) .empty-link-list {
+    display: flex;
 }
 
 /* settings */
@@ -946,7 +1029,7 @@ section {
 }
 
 /* start notification */
-.session>.notification {
+.notification {
     display: flex;
     flex-direction: row;
     align-items: center;

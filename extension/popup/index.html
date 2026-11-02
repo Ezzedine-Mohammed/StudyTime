@@ -6,15 +6,6 @@
     <title>StudyTime</title>
     <!-- font awesome -->
     <link rel="stylesheet" href="css/all.min.css" />
-    <!-- google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-      rel="stylesheet"
-    />
     <!-- css file -->
     <link rel="stylesheet" href="css/style.css" />
   </head>
@@ -202,11 +193,6 @@
             </div>
           </div>
         </div>
-
-        <div class="notification" id="notification" hidden>
-          <span class="mask-icon icon-info"></span>
-          <p>Can not start two sessions at the exact time.</p>
-        </div>
       </section>
 
       <section
@@ -217,19 +203,48 @@
       >
         <h1 id="site-heading" class="section-title">Blocked websites</h1>
         <p class="helper-text">Choose what stays out of your study time.</p>
-        <form action="" class="site-form">
+        <form class="site-form" id="site-form">
           <div class="form-content">
             <input
               type="text"
               id="site-input"
+              name="domain-input"
               placeholder="instagram.com"
+              pattern="^(https?://)?(www\.)?([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}(/.*)?$"
+              autocomplete="off"
+              spellcheck="false"
               required
             />
             <button type="submit" class="add-site-btn">Add</button>
           </div>
         </form>
-        <p class="helper-text">New websites are selected for blocking.</p>
-        <ul class="site-list"></ul>
+        <!-- <p class="helper-text">New websites are selected for blocking.</p> -->
+        <ul class="site-list" id="site-list">
+          <!-- <li class="domain">
+            <div>
+              <i class="fa-solid fa-globe"></i>
+              <p class="domain-text" id="domain-text">youtube.com</p>
+            </div>
+            <div>
+              <button
+                type="button"
+                class="toggle-btn"
+                role="switch"
+                aria-checked="false"
+                aria-label="active website blocking"
+              >
+                <span class="off" aria-hidden="true"></span>
+              </button>
+              <button
+                type="button"
+                class="remove-domain"
+                aria-label="remove website domain"
+              >
+                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+              </button>
+            </div>
+          </li> -->
+        </ul>
         <div class="empty-link-list">
           <span class="mask-icon icon-globe" aria-hidden="true"></span>
           <h2 class="empty-text">Your block list is empty</h2>
@@ -442,6 +457,18 @@
           Blocking resumes when you resume.
         </p>
       </section>
+      <div
+        class="notification"
+        id="notification"
+        hidden
+        role="alert"
+        aria-live="assertive"
+      >
+        <span class="mask-icon icon-info"></span>
+        <p id="notification-text">
+          Can not start two sessions at the exact time.
+        </p>
+      </div>
     </main>
 
     <footer>
@@ -450,5 +477,6 @@
     </footer>
 
     <script type="module" src="js/popup.js"></script>
+    <script type="module" src="js/site.js"></script>
   </body>
 </html>

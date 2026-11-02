@@ -9,6 +9,7 @@ import {
   displaySummaryData,
 } from "./history.js";
 import { addSession, getSession } from "./sessionRepository.js";
+import { toggleSite, removeSite } from "./site.js";
 
 // variables
 let isStartingSession = false;
@@ -174,6 +175,18 @@ document.addEventListener("click", async (event) => {
     } catch (error) {
       console.error("Session ended, but saving failed:", error);
     }
+  }
+
+  // toggle site btn
+  const siteToggleBtn = event.target.closest(".toggle-btn");
+  if (siteToggleBtn) {
+    await toggleSite(siteToggleBtn);
+  }
+
+  // remove site
+  const removeBtn = event.target.closest(".remove-domain");
+  if (removeBtn) {
+    await removeSite(removeBtn);
   }
 
   return;

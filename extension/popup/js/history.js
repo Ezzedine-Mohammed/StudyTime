@@ -1,6 +1,7 @@
 import { navigate } from "./navigation.js";
 import { sessionData } from "./session.js";
 import { getAllSessions } from "./sessionRepository.js";
+import { notification } from "./notification-banner.js";
 
 // DOM elements
 const historyTab = document.getElementById("history-tab");
@@ -20,8 +21,6 @@ const summaryEnd = document.getElementById("end-time");
 const sessionTab = document.getElementById("session-tab");
 
 const ulList = document.getElementById("history-list");
-
-const notification = document.getElementById("notification");
 
 // Finished session
 export function timesUp(session) {
@@ -65,11 +64,7 @@ export function newSession() {
   summaryScreen.hidden = true;
 
   if (sessionData.status === "active" || sessionData.status === "paused") {
-    notification.hidden = false;
-    setTimeout(() => {
-      notification.hidden = true;
-      console.log("here x2");
-    }, 4000);
+    notification("Can not start two sessions at the exact time.");
     return;
   }
 
@@ -87,11 +82,7 @@ export function emptyHistory() {
   navigate(sessionTab);
 
   if (sessionData.status === "active" || sessionData.status === "paused") {
-    notification.hidden = false;
-    setTimeout(() => {
-      notification.hidden = true;
-      console.log("here");
-    }, 4000);
+    notification("Can not start two sessions at the exact time.");
     return;
   }
 

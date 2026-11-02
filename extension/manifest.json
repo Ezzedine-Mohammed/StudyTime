@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "StudyTime",
+  "version": "1.0.0",
+  "description": "Browser extension for managing study sessions and reducing distractions.",
+  
+  "icons": {
+  "16": "assets/logo/logo16.png",
+  "32": "assets/logo/logo32.png",
+  "48": "assets/logo/logo48.png",
+  "128": "assets/logo/logo128.png"
+},
+
+ "action": {
+    "default_popup": "popup/index.html",
+    "default_icon": {
+    "16": "assets/logo/logo16.png",
+    "32": "assets/logo/logo32.png"
+  }
+  },
+  
+  "permissions": [
+    "declarativeNetRequestWithHostAccess",
+    "tabs"
+  ],
+  "optional_host_permissions": [
+    "*://*/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["popup/blocked.html"],
+      "matches": ["*://*/*"]
+    }
+  ]
+}

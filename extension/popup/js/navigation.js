@@ -1,4 +1,5 @@
 import { displaySessions } from "./history.js";
+import { displaySiteList } from "./site.js";
 
 // dom elements
 const main = document.getElementById("main");
@@ -36,6 +37,12 @@ export async function navigate(tab) {
       await displaySessions();
     } catch (error) {
       console.error("Could not start the session:", error);
+    }
+  } else if (nextScreen.dataset.screen === "site") {
+    try {
+      await displaySiteList();
+    } catch (error) {
+      console.error("Could not display site domains", error);
     }
   }
 
